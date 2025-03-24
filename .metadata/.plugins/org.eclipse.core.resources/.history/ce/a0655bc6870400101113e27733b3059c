@@ -1,0 +1,152 @@
+package com.back_barber_system.mapper;
+
+import com.back_barber_system.controller.request.SaveClientRequest;
+import com.back_barber_system.controller.request.UpdateClientRequest;
+import com.back_barber_system.controller.response.ClientDetailResponse;
+import com.back_barber_system.controller.response.ListClientResponse;
+import com.back_barber_system.controller.response.SaveClientResponse;
+import com.back_barber_system.controller.response.UpdateClientResponse;
+import com.back_barber_system.models.Client;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2025-03-19T02:52:15-0300",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.40.0.v20241112-0530, environment: Java 21.0.5 (Eclipse Adoptium)"
+)
+@Component
+public class IClientMapperImpl implements IClientMapper {
+
+    @Override
+    public Client toEntity(SaveClientRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Client client = new Client();
+
+        client.setEmail( request.email() );
+        client.setName( request.name() );
+        client.setPhone( request.phone() );
+
+        return client;
+    }
+
+    @Override
+    public SaveClientResponse toSaveResponse(Client entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        Long id = null;
+        String name = null;
+        String email = null;
+        String phone = null;
+
+        id = entity.getId();
+        name = entity.getName();
+        email = entity.getEmail();
+        phone = entity.getPhone();
+
+        SaveClientResponse saveClientResponse = new SaveClientResponse( id, name, email, phone );
+
+        return saveClientResponse;
+    }
+
+    @Override
+    public Client toEntity(long id, UpdateClientRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Client client = new Client();
+
+        if ( request != null ) {
+            client.setEmail( request.email() );
+            client.setName( request.name() );
+            client.setPhone( request.phone() );
+        }
+        client.setId( id );
+
+        return client;
+    }
+
+    @Override
+    public UpdateClientResponse toUpdateResponse(Client entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        Long id = null;
+        String name = null;
+        String email = null;
+        String phone = null;
+
+        id = entity.getId();
+        name = entity.getName();
+        email = entity.getEmail();
+        phone = entity.getPhone();
+
+        UpdateClientResponse updateClientResponse = new UpdateClientResponse( id, name, email, phone );
+
+        return updateClientResponse;
+    }
+
+    @Override
+    public ClientDetailResponse toDetailResponse(Client entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        Long id = null;
+        String name = null;
+        String email = null;
+        String phone = null;
+
+        id = entity.getId();
+        name = entity.getName();
+        email = entity.getEmail();
+        phone = entity.getPhone();
+
+        ClientDetailResponse clientDetailResponse = new ClientDetailResponse( id, name, email, phone );
+
+        return clientDetailResponse;
+    }
+
+    @Override
+    public List<ListClientResponse> toListResponse(List<Client> entities) {
+        if ( entities == null ) {
+            return null;
+        }
+
+        List<ListClientResponse> list = new ArrayList<ListClientResponse>( entities.size() );
+        for ( Client client : entities ) {
+            list.add( clientToListClientResponse( client ) );
+        }
+
+        return list;
+    }
+
+    protected ListClientResponse clientToListClientResponse(Client client) {
+        if ( client == null ) {
+            return null;
+        }
+
+        Long id = null;
+        String name = null;
+        String email = null;
+        String phone = null;
+
+        id = client.getId();
+        name = client.getName();
+        email = client.getEmail();
+        phone = client.getPhone();
+
+        ListClientResponse listClientResponse = new ListClientResponse( id, name, email, phone );
+
+        return listClientResponse;
+    }
+}

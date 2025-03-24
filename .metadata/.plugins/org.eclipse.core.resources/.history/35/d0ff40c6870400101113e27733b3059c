@@ -1,0 +1,143 @@
+package com.back_barber_system.mapper;
+
+import com.back_barber_system.controller.request.SaveScheduleRequest;
+import com.back_barber_system.controller.response.ClientScheduleAppointmentResponse;
+import com.back_barber_system.controller.response.SaveScheduleResponse;
+import com.back_barber_system.controller.response.ScheduleAppointmentMonthResponse;
+import com.back_barber_system.models.Client;
+import com.back_barber_system.models.Schedule;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2025-03-19T02:52:15-0300",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.40.0.v20241112-0530, environment: Java 21.0.5 (Eclipse Adoptium)"
+)
+@Component
+public class IScheduleMapperImpl implements IScheduleMapper {
+
+    @Override
+    public Schedule toEntity(SaveScheduleRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Schedule schedule = new Schedule();
+
+        schedule.setClient( saveScheduleRequestToClient( request ) );
+        schedule.setEndAt( request.endAt() );
+        schedule.setStartAt( request.startAt() );
+
+        return schedule;
+    }
+
+    @Override
+    public SaveScheduleResponse toSaveResponse(Schedule entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        Long clientId = null;
+        Long id = null;
+        OffsetDateTime startAt = null;
+        OffsetDateTime endAt = null;
+
+        clientId = entityClientId( entity );
+        id = entity.getId();
+        startAt = entity.getStartAt();
+        endAt = entity.getEndAt();
+
+        SaveScheduleResponse saveScheduleResponse = new SaveScheduleResponse( id, startAt, endAt, clientId );
+
+        return saveScheduleResponse;
+    }
+
+    @Override
+    public ScheduleAppointmentMonthResponse toMonthResponse(int year, int month, List<Schedule> entities) {
+        if ( entities == null ) {
+            return null;
+        }
+
+        int year1 = 0;
+        year1 = year;
+        int month1 = 0;
+        month1 = month;
+
+        List<ClientScheduleAppointmentResponse> scheduledAppointments = toClientMonthResponse(entities);
+
+        ScheduleAppointmentMonthResponse scheduleAppointmentMonthResponse = new ScheduleAppointmentMonthResponse( year1, month1, scheduledAppointments );
+
+        return scheduleAppointmentMonthResponse;
+    }
+
+    @Override
+    public List<ClientScheduleAppointmentResponse> toClientMonthResponse(List<Schedule> entities) {
+        if ( entities == null ) {
+            return null;
+        }
+
+        List<ClientScheduleAppointmentResponse> list = new ArrayList<ClientScheduleAppointmentResponse>( entities.size() );
+        for ( Schedule schedule : entities ) {
+            list.add( toClientMonthResponse( schedule ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public ClientScheduleAppointmentResponse toClientMonthResponse(Schedule entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        Long clientId = null;
+        String clientName = null;
+        Long id = null;
+        OffsetDateTime startAt = null;
+        OffsetDateTime endAt = null;
+
+        clientId = entityClientId( entity );
+        clientName = entityClientName( entity );
+        id = entity.getId();
+        startAt = entity.getStartAt();
+        endAt = entity.getEndAt();
+
+        Integer day = entity.getStartAt().getDayOfMonth();
+
+        ClientScheduleAppointmentResponse clientScheduleAppointmentResponse = new ClientScheduleAppointmentResponse( id, day, startAt, endAt, clientId, clientName );
+
+        return clientScheduleAppointmentResponse;
+    }
+
+    protected Client saveScheduleRequestToClient(SaveScheduleRequest saveScheduleRequest) {
+        if ( saveScheduleRequest == null ) {
+            return null;
+        }
+
+        Client client = new Client();
+
+        client.setId( saveScheduleRequest.clientId() );
+
+        return client;
+    }
+
+    private Long entityClientId(Schedule schedule) {
+        Client client = schedule.getClient();
+        if ( client == null ) {
+            return null;
+        }
+        return client.getId();
+    }
+
+    private String entityClientName(Schedule schedule) {
+        Client client = schedule.getClient();
+        if ( client == null ) {
+            return null;
+        }
+        return client.getName();
+    }
+}
